@@ -1,6 +1,6 @@
 $(".sign-in").submit(function () {
     $.post("/signin", {
-        username: $("#input-email").val(),
+        email: $("#input-email").val(),
         password: $("#input-password").val(),
     }, function (response) {
         document.location = response.returnTo;
