@@ -12,7 +12,7 @@ type (
 		Login     string
 		Password  string
 		Name      string
-		SurName   string
+		Surname   string
 		Age       int
 		Sex       string
 		City      string
@@ -20,10 +20,13 @@ type (
 	}
 
 	UserView struct {
-		name    string
-		surname string
-		age     int
-		sex     int
+		Id        int
+		Name      string
+		Surname   string
+		Age       int
+		Sex       string
+		City      string
+		Interests string
 	}
 
 	DuplicateRecordError struct {
@@ -40,8 +43,8 @@ func (e *DuplicateRecordError) Error() string {
 }
 
 func GetUsers(limit int) ([]UserView, error) {
-	var list = make([]UserView, limit)
-	query, err := db.Prepare("SELECT name, surname FROM `users` LIMIT ?")
+	var list []UserView
+	query, err := db.Prepare("SELECT name, surname, age, sex, city FROM `users` LIMIT ?")
 	if err != nil {
 		return nil, err
 	}
@@ -55,25 +58,25 @@ func GetUsers(limit int) ([]UserView, error) {
 	n := 0
 	for rows.Next() {
 		var p UserView
-		err := rows.Scan(&p.name, &p.surname)
+		err := rows.Scan(&p.Name, &p.Surname, &p.Age, &p.Sex, &p.City)
 		if err != nil {
 			return nil, err
 		}
-		list[n] = p
+		list = append(list, p)
 		n += 1
 	}
 	return list, nil
 }
 
 func GetUser(id int) (*UserView, error) {
-	query, err := db.Prepare("SELECT name, surname FROM `users` WHERE id = ?")
+	query, err := db.Prepare("SELECT id, name, surname, age FROM `users` WHERE id = ?")
 
 	if err != nil {
 		return nil, err
 	}
 	defer query.Close()
 	user := new(UserView)
-	err = query.QueryRow(id).Scan(&user.name, &user.surname)
+	err = query.QueryRow(id).Scan(&user.Id, &user.Name, &user.Surname, &user.Age, &user.City)
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +108,7 @@ func AuthUser(login string, password string) (bool, error) {
 func AddUser(user User) error {
 	_, err := db.Exec("INSERT INTO users (login, `password`, name, surname, city, age, sex, interests) "+
 		"VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-		user.Login, getPasswordHash(user.Password), user.Name, user.SurName, user.City, user.Age, user.Sex,
+		user.Login, getPasswordHash(user.Password), user.Name, user.Surname, user.City, user.Age, user.Sex,
 		user.Interests)
 
 	if err != nil {

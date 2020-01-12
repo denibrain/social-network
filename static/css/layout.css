@@ -32,3 +32,29 @@ body > .container {
 code {
     font-size: 80%;
 }
+
+.user-list {
+    padding:40px;
+}
+
+.user-list > div {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.user-list > div + div{
+    margin-bottom: 15px;
+}
+
+.user-list > div > img {
+    margin-right:20px;
+    border-radius: 4px;
+}
+.user-list > div > div {
+    font-size:1.2em;
+}
+
+.user-list > div > div .city-name {
+    font-size:0.8em;
+    color:#666;
+}

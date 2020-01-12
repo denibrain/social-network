@@ -85,7 +85,7 @@ func signUp(c *gin.Context) {
 		Login:     newUser["email"],
 		Password:  newUser["password"],
 		Name:      newUser["name"],
-		SurName:   newUser["surname"],
+		Surname:   newUser["surname"],
 		Age:       age,
 		Sex:       sex,
 		City:      newUser["city"],
