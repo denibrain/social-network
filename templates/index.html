@@ -2,7 +2,7 @@
 <div class="container">
     <div class="user-list">
 {{ range $_, $user := .users}}
-    <div>
+    <div data-id="{{ $user.Id}}">
         <img src="/img/nophoto.png" height="64" width="64"/>
         <div>
             {{ $user.Name }} {{ $user.Surname }}

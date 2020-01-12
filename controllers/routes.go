@@ -4,10 +4,7 @@ import (
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"html/template"
-	"net/http"
 	"social-network/middleware"
-	"social-network/model"
-	"strconv"
 )
 
 func noescape(str string) template.HTML {
@@ -48,38 +45,9 @@ func SetRoutes(r *gin.Engine) {
 
 	r.POST("/signup", signUp)
 
-	r.GET("/user/:id", func(c *gin.Context) {
-		currentUser := getCurrentUser(c)
-		id, err := strconv.Atoi(c.Param("name"))
-		if err != nil {
-			c.HTML(http.StatusBadRequest, "400.html", nil)
-			return
-		}
-		selectedUser, err := model.GetUser(id)
-		if err != nil {
-			c.HTML(http.StatusNotFound, "404.html", nil)
-			return
-		}
-		c.JSON(200, gin.H{
-			"message":      "pong",
-			"currentUser":  currentUser,
-			"selectedUser": selectedUser,
-		})
-	})
+	r.GET("/user/:id", getSelectedUser)
 
-	r.GET("/", func(c *gin.Context) {
-		currentUser := getCurrentUser(c)
-		users, err := model.GetUsers(20)
-		if err != nil {
-			c.HTML(http.StatusInternalServerError, "500.html", nil)
-			return
-		}
-		c.HTML(200, "index.html", gin.H{
-			"title":       "Home",
-			"users":       users,
-			"currentUser": currentUser,
-		})
-	})
+	r.GET("/", userList)
 
 	// Debug functions
 	r.GET("/ping", func(c *gin.Context) {

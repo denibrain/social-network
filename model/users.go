@@ -44,7 +44,7 @@ func (e *DuplicateRecordError) Error() string {
 
 func GetUsers(limit int) ([]UserView, error) {
 	var list []UserView
-	query, err := db.Prepare("SELECT name, surname, age, sex, city FROM `users` LIMIT ?")
+	query, err := db.Prepare("SELECT id, name, surname, age, sex, city FROM `users` LIMIT ?")
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +58,7 @@ func GetUsers(limit int) ([]UserView, error) {
 	n := 0
 	for rows.Next() {
 		var p UserView
-		err := rows.Scan(&p.Name, &p.Surname, &p.Age, &p.Sex, &p.City)
+		err := rows.Scan(&p.Id, &p.Name, &p.Surname, &p.Age, &p.Sex, &p.City)
 		if err != nil {
 			return nil, err
 		}
@@ -69,15 +69,36 @@ func GetUsers(limit int) ([]UserView, error) {
 }
 
 func GetUser(id int) (*UserView, error) {
-	query, err := db.Prepare("SELECT id, name, surname, age FROM `users` WHERE id = ?")
+	query, err := db.Prepare("SELECT id, name, surname, age, sex, city, interests FROM `users` WHERE id = ?")
 
 	if err != nil {
 		return nil, err
 	}
 	defer query.Close()
 	user := new(UserView)
-	err = query.QueryRow(id).Scan(&user.Id, &user.Name, &user.Surname, &user.Age, &user.City)
+	err = query.QueryRow(id).Scan(&user.Id, &user.Name, &user.Surname, &user.Age, &user.Sex, &user.City, &user.Interests)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return user, nil
+}
+
+func GetUserByEmail(email string) (*UserView, error) {
+	query, err := db.Prepare("SELECT id, name, surname, age, sex, city, interests FROM `users` WHERE login = ?")
+
+	if err != nil {
+		return nil, err
+	}
+	defer query.Close()
+	user := new(UserView)
+	err = query.QueryRow(email).Scan(&user.Id, &user.Name, &user.Surname, &user.Age, &user.Sex, &user.City, &user.Interests)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
 		return nil, err
 	}
 	return user, nil

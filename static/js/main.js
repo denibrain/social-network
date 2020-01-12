@@ -9,3 +9,8 @@ $(".js-sign-out").click(function () {
 
     return false;
 });
+
+
+$(".user-list > div").click(function () {
+    document.location = '/user/' + $(this).data('id')
+});

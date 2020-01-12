@@ -128,12 +128,20 @@ func signOut(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"result": "OK"})
 }
 
-func getCurrentUser(c *gin.Context) string {
+func getCurrentUser(c *gin.Context) *model.UserView {
 	session := sessions.Default(c)
 	user := session.Get(userKey)
 	if user == nil {
-		return ""
+		return nil
 	} else {
-		return user.(string)
+		userView, err := model.GetUserByEmail(user.(string))
+		if err != nil || userView == nil {
+			session.Set(userKey, nil)
+			if err := session.Save(); err != nil {
+				// TODO: Add logging
+			}
+			return nil
+		}
+		return userView
 	}
 }

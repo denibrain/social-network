@@ -34,12 +34,18 @@ code {
 }
 
 .user-list {
-    padding:40px;
+    padding:20px 0;
 }
 
 .user-list > div {
     display: flex;
+    padding:20px;
     margin-bottom: 15px;
+}
+
+.user-list > div:hover {
+    background: #eee;
+    cursor: pointer;
 }
 
 .user-list > div + div{
@@ -57,4 +63,21 @@ code {
 .user-list > div > div .city-name {
     font-size:0.8em;
     color:#666;
+}
+
+.navbar {padding:0.5rem 0 ;}
+
+.container > h1 {
+    margin-top:20px;
+}
+
+.user-profile {
+    display: flex;
+    margin-top:20px;
+}
+
+.user-profile > img {
+    width:30%;
+    max-width:200px;
+    margin-right:2em;
 }

@@ -22,9 +22,7 @@ div.form-page {
     padding: 15px;
     margin: 0 auto;
 }
-.sign-in .checkbox {
-    font-weight: 400;
-}
+
 .sign-in .form-control {
     position: relative;
     box-sizing: border-box;
