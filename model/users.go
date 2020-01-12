@@ -95,7 +95,7 @@ func AuthUser(login string, password string) (bool, error) {
 
 func AddUser(user User) error {
 	_, err := db.Exec("INSERT INTO users (login, `password`, name, surname, city, age, sex, interests) "+
-		"VALUES (?, ?, ?, ?, ?, ?, ?, ?), ",
+		"VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 		user.Login, getPasswordHash(user.Password), user.Name, user.SurName, user.City, user.Age, user.Sex,
 		user.Interests)
 
