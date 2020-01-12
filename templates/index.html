@@ -1,7 +1,7 @@
 {{ template "layout_header.html" .}}
 <div class="container">
     <div class="user-list">
-{{ range $_, $user := .users}}
+    {{ range $_, $user := .users}}
     <div data-id="{{ $user.Id}}">
         <img src="/img/nophoto.png" height="64" width="64"/>
         <div>
@@ -11,7 +11,9 @@
             </div>
         </div>
     </div>
-{{ end }}
+    {{ else}}
+    <p>No users</p>
+    {{ end }}
     </div>
 </div>
 
