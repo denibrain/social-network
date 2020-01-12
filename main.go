@@ -1,13 +1,22 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"social-network/controllers"
+	"social-network/model"
+)
 
 func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run("0.0.0.0:8181") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	router := gin.Default()
+	controllers.SetRoutes(router)
+
+	router.LoadHTMLGlob("templates/*")
+	router.Static("/css", "static/css")
+	router.Static("/img", "static/img")
+	router.Static("/js", "static/js")
+
+	model.ConnectDb("admin:admin@/social_network")
+	defer model.CloseDbConnection()
+
+	router.Run("0.0.0.0:8181") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
