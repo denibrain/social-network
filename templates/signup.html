@@ -1,0 +1,51 @@
+{{ template "header.html" .}}
+<div class="form-page">
+    <form class="sign-in" method="POST">
+        <p>Yet Another Social Network</p>
+        <h1 class="h3 font-weight-normal">Please sign up</h1>
+
+        <label for="input-email" class="sr-only">Email address</label>
+        <input type="email" id="input-email" class="form-control" name="email" placeholder="Email Address" required autofocus>
+
+        <label for="input-password" class="sr-only">Password</label>
+        <input type="password" id="input-password" class="form-control" name="password" placeholder="Password" required>
+
+        <label for="input-name" class="sr-only">First Name</label>
+        <input type="text" id="input-name" class="form-control" name="name" placeholder="First Name" required>
+
+        <label for="input-surname" class="sr-only">Last Name</label>
+        <input type="text" id="input-surname" class="form-control" name="surname" placeholder="Last Name" required>
+
+        <div class="group-control">
+            <div>
+                <label for="input-age" class="sr-only">Age</label>
+                <input type="number" id="input-age" class="form-control" name="age" placeholder="Age" required>
+            </div>
+            <div>
+                <label for="input-sex" class="sr-only">Sex</label>
+                <select id="input-sex" class="form-control" name="sex">
+                    <option value="U">Select your sex</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                </select>
+            </div>
+        </div>
+
+        <label for="input-city" class="sr-only">City</label>
+        <input type="text" id="input-city" class="form-control" name="city" placeholder="City" required>
+
+        <label for="input-interests" class="sr-only">Interests</label>
+        <textarea rows="3" id="input-interests" class="form-control" name="interests" placeholder="Interests"></textarea>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        <div class="message-box">
+
+        </div>
+
+        <p class="mt-3">Already a member? <a href="/signin">Sign In</a></p>
+        <p class="mt-4 text-muted">2020 Education Project of <a href="https://otus.ru/lessons/arhitektor-vysokih-nagruzok/">High Load Architect</a> course<br/>
+            <a href="https://github.com/denibrain/social-network">Source code</a></p>
+    </form>
+</div>
+{{ $js := " <script src=\"/js/signup.js\"></script>"}}
+{{ template "footer.html"  $js}}
