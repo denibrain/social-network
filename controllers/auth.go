@@ -13,7 +13,7 @@ const (
 	userKey = "user"
 )
 
-func login(c *gin.Context) {
+func logIn(c *gin.Context) {
 	session := sessions.Default(c)
 	username := c.PostForm("email")
 	password := c.PostForm("password")
@@ -51,7 +51,7 @@ func login(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"returnTo": returnTo})
 }
 
-func signup(c *gin.Context) {
+func signUp(c *gin.Context) {
 	newUser := make(map[string]string)
 	var requiredFields = []string{"email", "password", "name", "surname", "age", "sex", "city"}
 	for _, fieldName := range requiredFields {
@@ -111,6 +111,17 @@ func signup(c *gin.Context) {
 		returnTo = "/"
 	}
 	c.JSON(http.StatusOK, gin.H{"returnTo": returnTo})
+}
+
+func signOut(c *gin.Context) {
+	session := sessions.Default(c)
+	// Save the username in the session
+	session.Set(userKey, nil) // In real world usage you'd set this to the users ID
+	if err := session.Save(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"result": "OK"})
 }
 
 func getCurrentUser(c *gin.Context) string {

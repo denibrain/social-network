@@ -22,7 +22,7 @@ func SetRoutes(r *gin.Engine) {
 	})
 
 	authRequired := r.Group("/profile")
-	authRequired.Use(middleware.AuthenticationRequired("profile"))
+	authRequired.Use(middleware.AuthenticationRequired())
 	authRequired.GET("/", func(c *gin.Context) {
 		currentUser := getCurrentUser(c)
 		c.HTML(200, "profile.html", gin.H{
@@ -32,19 +32,21 @@ func SetRoutes(r *gin.Engine) {
 
 	r.GET("/signin", func(c *gin.Context) {
 		c.HTML(200, "login.html", gin.H{
-			"title": "Sing in",
+			"title": "Sign in",
 		})
 	})
 
-	r.POST("/signin", login)
+	r.POST("/signout", signOut)
+
+	r.POST("/signin", logIn)
 
 	r.GET("/signup", func(c *gin.Context) {
 		c.HTML(200, "signup.html", gin.H{
-			"title": "Sing up",
+			"title": "Sign up",
 		})
 	})
 
-	r.POST("/signup", signup)
+	r.POST("/signup", signUp)
 
 	r.GET("/user/:id", func(c *gin.Context) {
 		currentUser := getCurrentUser(c)
