@@ -7,7 +7,7 @@ $(".sign-in").submit(function () {
     }, "json")
     .fail(function(xhr) {
         if (xhr.status == 401) {
-            error("Username or Password is invalid");
+            error("Email address or Password is invalid");
             return false;
         }
         error("Internal system error")

@@ -4,6 +4,7 @@ import (
 	"crypto/sha1"
 	"database/sql"
 	"fmt"
+	"github.com/go-sql-driver/mysql"
 )
 
 type (
@@ -24,11 +25,19 @@ type (
 		age     int
 		sex     int
 	}
+
+	DuplicateRecordError struct {
+		Message string
+	}
 )
 
 const (
 	passwordSalt = "Z#$@df9gfd423"
 )
+
+func (e *DuplicateRecordError) Error() string {
+	return fmt.Sprintf("Error %s", e.Message)
+}
 
 func GetUsers(limit int) ([]UserView, error) {
 	var list = make([]UserView, limit)
@@ -100,6 +109,12 @@ func AddUser(user User) error {
 		user.Interests)
 
 	if err != nil {
+		if myError, ok := err.(*mysql.MySQLError); ok {
+			if myError.Number == 1062 {
+				dupError := DuplicateRecordError{Message: fmt.Sprintf("user with email %s already exists", user.Login)}
+				return &dupError
+			}
+		}
 		return err
 	}
 

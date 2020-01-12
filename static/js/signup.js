@@ -16,7 +16,7 @@ $(".sign-in").submit(function () {
         document.location = response.returnTo;
     }, "json")
     .fail(function(xhr) {
-        if (xhr.status == 400) {
+        if (xhr.status == 400 || xhr.status == 409) {
             if (xhr.responseJSON.field) {
                 let fieldName = $("label[for$=" + xhr.responseJSON.field + "]").text();
                 error(fieldName + ": " +xhr.responseJSON.error);

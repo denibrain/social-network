@@ -94,6 +94,10 @@ func signUp(c *gin.Context) {
 
 	err = model.AddUser(user)
 	if err != nil {
+		if e, ok := err.(*model.DuplicateRecordError); ok {
+			c.JSON(http.StatusConflict, gin.H{"error": e.Message, "field": "email"})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
