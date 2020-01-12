@@ -9,7 +9,8 @@ CREATE TABLE users
     age int not null default 0,
     sex enum('F', 'M', 'U') not null default 'U',
     interests text not null
-
 )
     charset=utf8;
+
+CREATE UNIQUE INDEX user_email_idx ON users (login)
 
