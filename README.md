@@ -2,13 +2,13 @@
 
 Education project (homework) for High Load Architect OTUS course
 
-# Command Line parameters
+# Command line options
 
 ## host
 
 -e &lt;host>:&lt;port>
 
-e.g.: -e=0.0.0.0:80
+e.g.: -e 0.0.0.0:80
 
 default: 0.0.0.0:8181
 
@@ -16,6 +16,6 @@ default: 0.0.0.0:8181
 
 -d &lt;user>:&lt;password>@&lt;host>/&lt;database name>
 
-e.g.: -d=admin:admin@localhost/social_network
+e.g.: -d 'admin:admin@localhost/social_network'
 
 default: admin:admin@localhost/social_network
