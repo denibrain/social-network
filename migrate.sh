@@ -1,0 +1,1 @@
+migrate -database 'mysql://admin:admin@tcp(localhost:3306)/social_network' -path db/migrations $1
