@@ -10,8 +10,9 @@ func AuthenticationRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get("user")
+
 		if user == nil {
-			c.Redirect(http.StatusTemporaryRedirect, "/login")
+			c.Redirect(http.StatusTemporaryRedirect, "/login?return_to="+c.FullPath())
 			return
 		}
 
