@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/go-sql-driver/mysql"
+	"strings"
 )
 
 type (
@@ -51,6 +52,42 @@ func GetUsers(limit int) ([]UserView, error) {
 	defer query.Close()
 
 	rows, err := query.Query(limit)
+	if err != nil {
+		return nil, err
+	}
+
+	n := 0
+	for rows.Next() {
+		var p UserView
+		err := rows.Scan(&p.Id, &p.Name, &p.Surname, &p.Age, &p.Sex, &p.City)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, p)
+		n += 1
+	}
+	return list, nil
+}
+
+func GetUsersByName(queryString string, limit int) ([]UserView, error) {
+	params := strings.SplitN(queryString, " ", 2)
+	queryParams := make([]interface{}, len(params)+1)
+	whereNames := [2]string{"name LIKE ?", " AND surname LIKE ?"}
+	where := " WHERE "
+	for i := range params {
+		where += whereNames[i]
+		queryParams[i] = params[i] + "%"
+	}
+
+	var list []UserView
+	query, err := db.Prepare("SELECT id, name, surname, age, sex, city FROM `users` " + where + " LIMIT ?")
+	if err != nil {
+		return nil, err
+	}
+	defer query.Close()
+
+	queryParams[len(queryParams)-1] = limit
+	rows, err := query.Query(queryParams...)
 	if err != nil {
 		return nil, err
 	}

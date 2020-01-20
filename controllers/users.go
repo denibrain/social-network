@@ -34,13 +34,22 @@ func getSelectedUser(c *gin.Context) {
 
 func userList(c *gin.Context) {
 	currentUser := getCurrentUser(c)
-	users, err := model.GetUsers(20)
+	query := c.Query("name")
+
+	var err error
+	var users []model.UserView
+	if query != "" {
+		users, err = model.GetUsersByName(query, 20)
+	} else {
+		users, err = model.GetUsers(20)
+	}
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "500.html", nil)
 		return
 	}
 	c.HTML(200, "index.html", gin.H{
 		"title":       "Home",
+		"query":       query,
 		"users":       users,
 		"currentUser": currentUser,
 	})
