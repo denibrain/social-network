@@ -79,8 +79,7 @@ func GetUsersByName(queryString string, limit int) ([]UserView, error) {
 		queryParams[i] = params[i] + "%"
 	}
 
-	var list []UserView
-	query, err := db.Prepare("SELECT id, name, surname, age, sex, city FROM `users` " + where + " LIMIT ?")
+	query, err := rdb.Prepare("SELECT id, name, surname, age, sex, city FROM `users` " + where + " LIMIT ?")
 	if err != nil {
 		return nil, err
 	}
@@ -93,14 +92,27 @@ func GetUsersByName(queryString string, limit int) ([]UserView, error) {
 	}
 
 	n := 0
+	var list []UserView
+	var ids []interface{}
 	for rows.Next() {
 		var p UserView
+
 		err := rows.Scan(&p.Id, &p.Name, &p.Surname, &p.Age, &p.Sex, &p.City)
 		if err != nil {
 			return nil, err
 		}
+
 		list = append(list, p)
+		ids = append(ids, p.Id)
 		n += 1
+	}
+
+	if n > 0 {
+		_, err := db.Exec("UPDATE users SET visits = visits + 1 WHERE id IN (?"+
+			strings.Repeat(",?", n-1)+")", ids...)
+		if err != nil {
+			return nil, err
+		}
 	}
 	return list, nil
 }

@@ -9,6 +9,7 @@ import (
 
 var (
 	dsn      string
+	rdsn     string
 	endpoint string
 )
 
@@ -24,13 +25,21 @@ func main() {
 	router.Static("/js", "static/js")
 
 	model.ConnectDb(dsn)
-	defer model.CloseDbConnection()
+	defer model.CloseDb()
+
+	if rdsn == "" {
+		rdsn = dsn
+	}
+
+	model.ConnectReadonlyDb(rdsn)
+	defer model.CloseReadonlyDb()
 
 	router.Run(endpoint) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
 
 func initOptions() {
 	flag.StringVar(&dsn, "d", "admin:admin@/social_network", "DSN: user:pwd@host/database")
+	flag.StringVar(&rdsn, "r", "", "Readonly DSN: user:pwd@host/database")
 	flag.StringVar(&endpoint, "e", "0.0.0.0:8181", "Endpoint: 0.0.0.0:80")
 	flag.Parse()
 }
