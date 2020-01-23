@@ -1,0 +1,1 @@
+ALTER TABLE users ADD COLUMN visits int NOT NULL default 0;
