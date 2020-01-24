@@ -79,7 +79,8 @@ func GetUsersByName(queryString string, limit int) ([]UserView, error) {
 		queryParams[i] = params[i] + "%"
 	}
 
-	query, err := rdb.Prepare("SELECT id, name, surname, age, sex, city FROM `users` " + where + " LIMIT ?")
+	query, err := rdb.Prepare("SELECT id, name, surname, age, sex, city FROM `users` " + where + " " +
+		"ORDER BY visits LIMIT ?")
 	if err != nil {
 		return nil, err
 	}
