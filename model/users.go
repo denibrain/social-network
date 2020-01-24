@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/go-sql-driver/mysql"
+	"math/rand"
 	"strings"
 )
 
@@ -79,7 +80,15 @@ func GetUsersByName(queryString string, limit int) ([]UserView, error) {
 		queryParams[i] = params[i] + "%"
 	}
 
-	query, err := rdb.Prepare("SELECT id, name, surname, age, sex, city FROM `users` " + where + " " +
+	var reader *sql.DB
+
+	if rand.Intn(10) > 4 {
+		reader = rdb
+	} else {
+		reader = db
+	}
+
+	query, err := reader.Prepare("SELECT id, name, surname, age, sex, city FROM `users` " + where + " " +
 		"ORDER BY visits LIMIT ?")
 	if err != nil {
 		return nil, err
