@@ -1,6 +1,7 @@
 import random
 
-fileOut = open('urls.txt', 'wt')
+
+fileOut = open('users.sql', 'wt')
 fin = open('names.csv', 'rt')
 
 n = 0
@@ -52,30 +53,48 @@ def build_interests(n):
     return s
 
 
+names = set([])
+lastNames = set([])
 for line in fin:
     name, lastName = line.strip().split(',')
     if name == 'DELETED':
         continue
 
-    sex = sexes[random.randrange(2)]
-    age = random.randint(14, 99)
-    city = cities[random.randint(0, len(cities) - 1)]
+    if len(name) > 60:
+        print("Long name", name)
+        continue
 
-    interests = build_interests(3)
+    if len(lastName) > 60:
+        print("Long last name", lastName)
+        continue
 
-    if n > 0:
-        buffer += ",\n"
+    names.add(name)
+    lastNames.add(lastName)
 
-    login = f'soc_{n}_{r}'
-    password = f'soc_{n}_{r}'
+for name in names:
+    for lastName in lastNames:
+        sex = sexes[random.randrange(2)]
+        age = random.randint(14, 99)
+        city = cities[random.randint(0, len(cities) - 1)]
 
-    buffer += f'("{name}", "{lastName}", {age}, "{sex}", "{city}", "{interests}", "{login}", "{password}")'
-    n += 1
-    if n >= 500:
-        fileOut.write(prefix + buffer + ";\n")
-        buffer = ''
-        n = 0
-        r += 1
+        interests = build_interests(3)
+
+        if n > 0:
+            buffer += ",\n"
+
+        login = f'soc_{n}_{r}'
+        password = f'soc_{n}_{r}'
+
+        buffer += f'("{name}", "{lastName}", {age}, "{sex}", "{city}", "{interests}", "{login}", "{password}")'
+        n += 1
+        if n >= 500:
+            fileOut.write(prefix + buffer + ";\n")
+            buffer = ''
+            n = 0
+            r += 1
+
+        if r > 20000:
+            break
 
 
 if n > 0:

@@ -1,14 +1,23 @@
 
 
-def char_range(c1, c2):
-    for c in range(ord(c1), ord(c2)+1):
-        yield chr(c)
+names = set([])
+fin = open('names.csv', 'rt')
+for line in fin:
+    name, lastName = line.strip().split(',')
+    if name == 'DELETED':
+        continue
 
+    if len(name) > 60:
+        print("Long name", name)
+        continue
+
+    names.add(name[0:2])
+
+
+fin.close()
 
 fileOut = open('urls.txt', 'wt')
-for c1 in char_range('А', 'Я'):
-    for c2 in char_range('а', 'я'):
-        fileOut.write(f'/?name={c1}{c2}\n')
-
+for prefix in names:
+    fileOut.write(f'/?name={prefix}\n')
 
 fileOut.close()

@@ -109,11 +109,12 @@ func GetUsersByName(queryString string, limit int) ([]UserView, error) {
 	}
 
 	if n > 0 {
-		_, err := db.Exec("UPDATE users SET visits = visits + 1 WHERE id IN (?"+
-			strings.Repeat(",?", n-1)+")", ids...)
-		if err != nil {
-			return nil, err
-		}
+		go func() {
+			_, err := db.Exec("UPDATE users SET visits = visits + 1 WHERE id IN (?"+
+				strings.Repeat(",?", n-1)+")", ids...)
+			if err != nil {
+			}
+		}()
 	}
 	return list, nil
 }
