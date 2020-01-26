@@ -25,16 +25,13 @@ function create_script {
   # first argument : script name
   # second argument: script content
 
-  echo -e "#!/bin/bash\n${1}\n" > ${2}
+  echo "#!/bin/bash\n${1}\n" > ${2}
 }
 
 echo "Setting COMPOSE_PROJECT_NAME in .env file..."
 echo
 
-
-NAME=`whoami|cut -d '.' -f 1`
-PWD_MD5=`pwd|md5sum`
-NAME="${NAME}.${PWD_MD5:1:6}"
+NAME="snet"
 
 grep -v COMPOSE_PROJECT_NAME .env > .env.swp
 echo COMPOSE_PROJECT_NAME=${NAME} >> .env.swp
