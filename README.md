@@ -19,3 +19,12 @@ default: 0.0.0.0:8181
 e.g.: -d 'admin:admin@localhost/social_network'
 
 default: admin:admin@localhost/social_network
+
+## database read-only replica 
+
+-r &lt;user>:&lt;password>@&lt;host>/&lt;database name>
+
+e.g.: -r 'admin:admin@localhost/social_network'
+
+default: when the option is omitted, app uses the DB which
+is specified in d 

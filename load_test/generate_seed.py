@@ -71,30 +71,34 @@ for line in fin:
     names.add(name)
     lastNames.add(lastName)
 
-for name in names:
-    for lastName in lastNames:
-        sex = sexes[random.randrange(2)]
-        age = random.randint(14, 99)
-        city = cities[random.randint(0, len(cities) - 1)]
+r = 1000
 
-        interests = build_interests(3)
+nameList = list(names)
+lastNameList = list(lastNames)
 
-        if n > 0:
-            buffer += ",\n"
+while r > 0:
 
-        login = f'soc_{n}_{r}'
-        password = f'soc_{n}_{r}'
+    sex = sexes[random.randrange(2)]
+    age = random.randint(14, 99)
+    city = cities[random.randint(0, len(cities) - 1)]
+    name = nameList[random.randint(0, len(names) - 1)]
+    lastName = lastNameList[random.randint(0, len(lastNames) - 1)]
 
-        buffer += f'("{name}", "{lastName}", {age}, "{sex}", "{city}", "{interests}", "{login}", "{password}")'
-        n += 1
-        if n >= 500:
-            fileOut.write(prefix + buffer + ";\n")
-            buffer = ''
-            n = 0
-            r += 1
+    interests = build_interests(3)
 
-        if r > 20000:
-            break
+    if n > 0:
+        buffer += ",\n"
+
+    login = f'soc_{n}_{r}'
+    password = f'soc_{n}_{r}'
+
+    buffer += f'("{name}", "{lastName}", {age}, "{sex}", "{city}", "{interests}", "{login}", "{password}")'
+    n += 1
+    if n >= 500:
+        fileOut.write(prefix + buffer + ";\n")
+        buffer = ''
+        n = 0
+        r -= 1
 
 
 if n > 0:
