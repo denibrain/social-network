@@ -1,0 +1,34 @@
+{
+  "name": "social-network",
+  "version": "1.0.0",
+  "description": "Education project (homework) for High Load Architect OTUS course",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack",
+    "dev": "npm run webpack -- --mode development --watch",
+    "build": "npm run webpack -- --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/denibrain/social-network.git"
+  },
+  "author": "Denibrain denibrain@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/denibrain/social-network/issues"
+  },
+  "homepage": "https://github.com/denibrain/social-network#readme",
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^3.5.2",
+    "file-loader": "^6.0.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "jquery": "^3.5.0",
+    "normalize.css": "^8.0.1"
+  }
+}
