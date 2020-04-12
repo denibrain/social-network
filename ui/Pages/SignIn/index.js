@@ -1,3 +1,7 @@
+import "../../Layout/index.css"
+import "../../Components/SignUpForm/index.css"
+import * as $ from 'jquery'
+
 $(".sign-in").submit(function () {
     $.post("/signin", {
         email: $("#input-email").val(),
@@ -6,7 +10,7 @@ $(".sign-in").submit(function () {
         document.location = response.returnTo;
     }, "json")
     .fail(function(xhr) {
-        if (xhr.status == 401) {
+        if (xhr.status === 401) {
             error("Email address or Password is invalid");
             return false;
         }

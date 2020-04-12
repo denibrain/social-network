@@ -1,3 +1,7 @@
+import "../../Layout/index.css"
+import "../../Components/SignUpForm/index.css"
+import * as $ from 'jquery'
+
 $(".sign-in").submit(function () {
     $.post("/signup", {
         email: $("#input-email").val(),

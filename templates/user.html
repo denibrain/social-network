@@ -1,16 +1,32 @@
 {{ template "layout_header.html" .}}
 <div class="container">
-    <div class="user-profile">
-        <img src="/img/nophoto.png"/>
-        <div>
-            <h1>{{ .user.Name }} {{ .user.Surname }}</h1>
-            <div class="user-details">Age: {{ .user.Age }} years</div>
-            <div class="user-details">City: {{ .user.City }}</div>
-            {{ if .user.Interests }}
-            <div class="user-details">{{ .user.Name }} likes: {{ .user.Interests }}</div>
-            {{ end }}
+    <div class="user-list-column">
+        <div class="user-profile">
+            <img src="/img/nophoto.png"/>
+            <div>
+                <h1>{{ .user.Name }} {{ .user.Surname }}</h1>
+                <div class="user-details">Age: {{ .user.Age }} years</div>
+                <div class="user-details">City: {{ .user.City }}</div>
+                {{ if .user.Interests }}
+                <div class="user-details">{{ .user.Name }} likes: {{ .user.Interests }}</div>
+                {{ end }}
+            </div>
+        </div>
+        <div class="user-list">
+
+        </div>
+    </div>
+    <div class="content-column">
+        <div class="new-post-form">
+            <textarea>
+
+            </textarea>
+            <button class="js-new-post-submit">Post</button>
+        </div>
+        <div class="feed">
+
         </div>
     </div>
 </div>
 
-{{ template "layout_footer.html" " <script src=\"/js/main.js\"></script>"}}
+{{ template "layout_footer.html" " <script src=\"/js/index.js\"></script>"}}

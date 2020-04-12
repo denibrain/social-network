@@ -1,4 +1,5 @@
 {{ template "header.html" .}}
+
 <div class="form-page">
     <form class="sign-in" method="POST">
         <p>Yet Another Social Network</p>
@@ -47,5 +48,4 @@
             <a href="https://github.com/denibrain/social-network">Source code</a></p>
     </form>
 </div>
-{{ $js := " <script src=\"/js/signup.js\"></script>"}}
-{{ template "footer.html"  $js}}
+{{ template "footer.html"  " <script src=\"/ui/singup.bundle.js\"></script>"}}

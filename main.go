@@ -20,9 +20,7 @@ func main() {
 	controllers.SetRoutes(router)
 
 	router.LoadHTMLGlob("templates/*")
-	router.Static("/css", "static/css")
-	router.Static("/img", "static/img")
-	router.Static("/js", "static/js")
+	router.Static("/ui", "static/ui")
 
 	model.ConnectDb(dsn)
 	defer model.CloseDb()

@@ -1,5 +1,5 @@
-/* Sticky footer styles
--------------------------------------------------- */
+@import "~normalize.css";
+
 html,
 body {
     height: 100%;
