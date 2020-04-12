@@ -32,6 +32,27 @@ func getSelectedUser(c *gin.Context) {
 	})
 }
 
+func userHome(c *gin.Context) {
+	currentUser := getCurrentUser(c)
+
+	selectedUser, err := model.GetUser(currentUser.Id)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "500.html", nil)
+		return
+	}
+
+	if selectedUser == nil {
+		c.HTML(http.StatusNotFound, "404.html", nil)
+		return
+	}
+
+	c.HTML(200, "user.html", gin.H{
+		"currentUser": currentUser,
+		"user":        selectedUser,
+		"css":         "main",
+	})
+}
+
 func userList(c *gin.Context) {
 	currentUser := getCurrentUser(c)
 	query := c.Query("name")
@@ -53,4 +74,8 @@ func userList(c *gin.Context) {
 		"users":       users,
 		"currentUser": currentUser,
 	})
+}
+
+func searchUsers(context *gin.Context) {
+
 }

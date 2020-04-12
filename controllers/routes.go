@@ -27,27 +27,38 @@ func SetRoutes(r *gin.Engine) {
 		})
 	})
 
+	r.GET("/", middleware.AuthenticationRequired(), userHome)
+
+	r.GET("/feeds", middleware.AuthenticationRequired(), getFeeds)
+	r.POST("/feeds", middleware.AuthenticationRequired(), postNewFeed)
+
+	r.GET("/user/:id", middleware.AuthenticationRequired(), getSelectedUser)
+	r.GET("/user/:id/talks", middleware.AuthenticationRequired(), getMessages)
+	r.POST("/user/:id/talks", middleware.AuthenticationRequired(), sendMessage)
+	r.GET("/user/:id/feeds", middleware.AuthenticationRequired(), getUserFeeds)
+	r.POST("/user/:id/sendRequest", middleware.AuthenticationRequired(), sendRequest)
+
+	r.POST("/friends", middleware.AuthenticationRequired(), getFriends)
+	r.POST("/searchUsers", middleware.AuthenticationRequired(), searchUsers)
+
+	// Auth section
+	r.POST("/signin", logIn)
 	r.GET("/signin", func(c *gin.Context) {
 		c.HTML(200, "login.html", gin.H{
 			"title": "Sign in",
+			"css":   "signin",
 		})
 	})
 
 	r.POST("/signout", signOut)
 
-	r.POST("/signin", logIn)
-
+	r.POST("/signup", signUp)
 	r.GET("/signup", func(c *gin.Context) {
 		c.HTML(200, "signup.html", gin.H{
 			"title": "Sign up",
+			"css":   "signup",
 		})
 	})
-
-	r.POST("/signup", signUp)
-
-	r.GET("/user/:id", getSelectedUser)
-
-	r.GET("/", userList)
 
 	// Debug functions
 	r.GET("/ping", func(c *gin.Context) {
