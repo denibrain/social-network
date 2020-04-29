@@ -3,7 +3,7 @@
     <div class="user-list">
     {{ range $_, $user := .users}}
     <div data-id="{{ $user.Id}}">
-        <img src="/img/nophoto.png" height="64" width="64"/>
+        <img src="/ui/nophoto.png" height="64" width="64"/>
         <div>
             {{ $user.Name }} {{ $user.Surname }}
             <div class="city-name">
