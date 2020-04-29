@@ -27,19 +27,25 @@ func SetRoutes(r *gin.Engine) {
 		})
 	})
 
-	r.GET("/", middleware.AuthenticationRequired(), userHome)
+	authGroup := r.Group("/")
+	authGroup.Use(middleware.AuthenticationRequired())
 
-	r.GET("/feeds", middleware.AuthenticationRequired(), getFeeds)
-	r.POST("/feeds", middleware.AuthenticationRequired(), postNewFeed)
+	authGroup.GET("/", userHome)
 
-	r.GET("/user/:id", middleware.AuthenticationRequired(), getSelectedUser)
-	r.GET("/user/:id/talks", middleware.AuthenticationRequired(), getMessages)
-	r.POST("/user/:id/talks", middleware.AuthenticationRequired(), sendMessage)
-	r.GET("/user/:id/feeds", middleware.AuthenticationRequired(), getUserFeeds)
-	r.POST("/user/:id/sendRequest", middleware.AuthenticationRequired(), sendRequest)
+	authGroup.GET("/user/:id", getSelectedUser)
+	authGroup.GET("/user/:id/talks", getMessages)
+	authGroup.POST("/user/:id/talks", sendMessage)
+	authGroup.GET("/user/:id/feeds", getUserFeeds)
+	authGroup.POST("/user/:id/feeds", postNewFeed)
+	authGroup.POST("/user/:id/sendRequest", sendRequest)
 
-	r.POST("/friends", middleware.AuthenticationRequired(), getFriends)
-	r.POST("/searchUsers", middleware.AuthenticationRequired(), searchUsers)
+	authGroup.GET("/user/:id/friends", getFriends)
+
+	authGroup.POST("/my/friends", getFriends)
+	authGroup.POST("/my/getRequest", sendRequest)
+	authGroup.GET("/my/feeds", getFeeds)
+	authGroup.POST("/my/feeds", postNewFeed)
+	authGroup.POST("/searchUsers", searchUsers)
 
 	// Auth section
 	r.POST("/signin", logIn)
